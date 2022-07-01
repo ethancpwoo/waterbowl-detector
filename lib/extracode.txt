@@ -1,0 +1,37 @@
+ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: _devicesList.length,
+            itemBuilder: (BuildContext, int index) {
+              return Container(
+                height: 50,
+                color: Colors.pink,
+                child: Center(
+                    child: Text(
+                        'Entry ${_devicesList[index].address} + ${_devicesList[index].name}')),
+              );
+            })
+
+
+// get the current state
+    FlutterBluetoothSerial.instance.state.then((state) {
+      setState(() {
+        _bluetoothState = state;
+      });
+    });
+    _deviceState = 0; //neutral
+    enableBluetooth(); //request to turn on Bluetooth
+    //Listen if we wanna turn it off later
+    FlutterBluetoothSerial.instance
+        .onStateChanged()
+        .listen((BluetoothState state) {
+      setState(() {
+        _bluetoothState = state;
+        getPairedDevices();
+      });
+    });
+
+     void initState() {
+    super.initState();
+    
+
+  }
